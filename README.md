@@ -63,6 +63,31 @@ keluaran:
 
 ![image](https://user-images.githubusercontent.com/62486840/147625515-18caa6b6-b197-4e4e-be66-7b08cdc9f776.png)
 
+### 3. Efektivitas dan Efisiensi Promosi Berdasarkan Tahun
+Pada bagian ini kita akan melakukan analisa terhadap efektifitas dan efisiensi dari promosi yang sudah dilakukan selama ini
+Efektifitas dan efisiensi dari promosi yang dilakukan akan dianalisa berdasarkan Burn Rate yaitu dengan membandigkan total value promosi yang dikeluarkan terhadap total sales yang diperoleh
+DQLab berharap bahwa burn rate tetap berada diangka maskimum 4.5%
+```
+burn rate : (total discount / total sales) * 100
+```
+Dari formula diatas dibuatkan Derived Tables untuk menghitung total sales (sales) dan total discount (promotion_value) berdasarkan tahun(years) dan formulasikan persentase burn rate nya (burn_rate_percentage).
+```
+SELECT 
+	left(order_date,4) as years,
+	sum(sales) as sales,
+	sum(discount_value) as promotion_value,
+	round((sum(discount_value)/sum(sales))*100,2) as burn_rate_percentage
+FROM 
+	dqlab_sales_store
+WHERE 
+	order_status = 'Order Finished'
+GROUP BY 
+	left(order_date,4);
+```
+keluaran:
+
+![image](https://user-images.githubusercontent.com/62486840/147625897-a8563fab-1565-4558-b2dd-34433b0d5f66.png)
+
 
 
 
