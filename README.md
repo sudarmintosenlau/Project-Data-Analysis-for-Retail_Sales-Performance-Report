@@ -25,7 +25,7 @@ Dalam Project ini tugas yang ingin kerjakan:
 5. Transaksi Pelanggan per Tahun
 
 ### 1. Performa Keseluruhan Toko berdasarkan Tahun
-Membuat Query dengan menggunakan SQL untuk mendapatkan total penjualan (sales) dan jumlah order (number_of_order) dari tahun 2009 sampai 2012 (years).
+Membuat Query dengan menggunakan SQL untuk mendapatkan **total penjualan** (sales) dan **jumlah order** (number_of_order) dari tahun **2009 sampai 2012** (years).
 
 ```
 SELECT 
@@ -40,3 +40,32 @@ GROUP BY
 	left(order_date,4);
 ```
 keluaran:
+
+![image](https://user-images.githubusercontent.com/62486840/147625177-54f8b733-1731-4515-a386-726049f470bd.png)
+
+### 2. Kinerja Keseluruhan berdasarkan Sub Kategori Produk
+Membuat Query dengan menggunakan SQL untuk mendapatkan **total penjualan** (sales) berdasarkan **sub category dari produk** (product_sub_category) pada **tahun 2011 dan 2012** saja (years). 
+```
+SELECT 
+	left(order_date,4) as years,
+	product_sub_category,sum(sales) as sales
+FROM 
+	dqlab_sales_store
+WHERE 
+	left(order_date,4) in ('2011','2012') and order_status = 'Order Finished'
+GROUP BY 
+	left(order_date,4),product_sub_category
+ORDER BY 
+	left(order_date,4),sum(sales) 
+DESC;
+```
+keluaran:
+
+![image](https://user-images.githubusercontent.com/62486840/147625515-18caa6b6-b197-4e4e-be66-7b08cdc9f776.png)
+
+
+
+
+Project ini dapat diakses melalui https://academy.dqlab.id/main/package/project/182?pf=0.
+
+![image](https://user-images.githubusercontent.com/62486840/147624891-ec494703-94ef-4705-b697-e6ac166b4e26.png)
