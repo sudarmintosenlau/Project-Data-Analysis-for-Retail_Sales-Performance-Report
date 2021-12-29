@@ -68,7 +68,7 @@ Pada bagian ini kita akan melakukan analisa terhadap efektifitas dan efisiensi d
 Efektifitas dan efisiensi dari promosi yang dilakukan akan dianalisa berdasarkan Burn Rate yaitu dengan membandigkan total value promosi yang dikeluarkan terhadap total sales yang diperoleh
 DQLab berharap bahwa burn rate tetap berada diangka maskimum 4.5%
 ```
-burn rate : (total discount / total sales) * 100
+burn rate = (total discount / total sales) * 100
 ```
 Dari formula diatas dibuatkan Derived Tables untuk menghitung total sales (sales) dan total discount (promotion_value) berdasarkan tahun(years) dan formulasikan persentase burn rate nya (burn_rate_percentage).
 ```
@@ -88,7 +88,49 @@ keluaran:
 
 ![image](https://user-images.githubusercontent.com/62486840/147625897-a8563fab-1565-4558-b2dd-34433b0d5f66.png)
 
+### 4. Efektivitas dan Efisiensi Promosi Berdasarkan Sub Kategori Produk
+Pada bagian ini kita akan melakukan analisa terhadap efektifitas dan efisiensi dari promosi yang sudah dilakukan selama ini seperti pada bagian sebelumnya. 
+Akan tetapi, dengan sedikit modifikasi dengan menambahkan kolom product_sub_category dan product_category.
+```
+SELECT 
+	left(order_date,4) as years,
+	product_sub_category,
+	product_category,
+	sum(sales) as sales,
+	sum(discount_value) as promotion_value,
+	round((sum(discount_value)/sum(sales))*100,2) as burn_rate_percentage
+FROM 
+	dqlab_sales_store
+WHERE 
+	left(order_date,4) ='2012' and order_status = 'Order Finished'
+GROUP BY 
+	left(order_date,4),product_sub_category,product_category
+ORDER BY 
+	sum(sales) 
+DESC;
+```
+keluaran:
 
+![image](https://user-images.githubusercontent.com/62486840/147626280-9b270ca9-0dad-4a42-90c2-ca5fbcbd7992.png)
+
+### 5. Transaksi Pelanggan per Tahun
+
+```
+SELECT 
+	left(order_date,4) as years, 
+	count(distinct customer) as number_of_customer
+FROM 
+	dqlab_sales_store
+WHERE 
+	left(order_date,4) in ('2009','2010','2011','2012') and order_status = 'Order Finished'
+GROUP BY 
+	left(order_date,4)
+ORDER BY 
+	left(order_date,4);
+```
+keluaran:
+
+![image](https://user-images.githubusercontent.com/62486840/147626349-ba7396c0-473b-48c6-ba90-7e6e40db0d29.png)
 
 
 Project ini dapat diakses melalui https://academy.dqlab.id/main/package/project/182?pf=0.
